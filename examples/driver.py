@@ -1,4 +1,7 @@
 import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
+
 from goph547lab00.arrays import (
     square_ones,
     )
@@ -40,8 +43,53 @@ def main():
     dot_prod = E_np @ F_np
     print(f'8) Dot product:\n{dot_prod}')
 
+
     cross_prod = np.cross(E_np, F_np)
     print(f'9) Cross product:\n{cross_prod}')
+
+    img = np.asarray(Image.open('../examples/rock_canyon.jpg'))
+    print(f'Regular image: {repr(img)}')  # shape is 296, 474, 3
+    imgplot = plt.imshow(img)  # creates plot
+    plt.show()  # displays plot
+
+    grey_img = np.asarray(Image.open('../examples/rock_canyon.jpg').convert('L'))
+    print(f'Greyscale image: {repr(grey_img)}')  # shape is 296, 474. no 3rd entry bc not RGB
+    grey_imgplot = plt.imshow(grey_img)
+    plt.show()
+
+    small_grey_img = grey_img[150:240, 110:150]
+    small_grey_imgplot = plt.imshow(small_grey_img)
+    plt.show()
+
+    R_x = img[:, :, 0].mean(axis=0); G_x = img[:, :, 1].mean(axis=0); B_x = img[:, :, 2].mean(axis=0)
+    RGB_x = img.mean(axis=(0, 2))
+
+    R_y = img[:, :, 0].mean(axis=1); G_y = img[:, :, 1].mean(axis=1); B_y = img[:, :, 2].mean(axis=1)
+    RGB_y = img.mean(axis=(1, 2))
+
+    fig, ax = plt.subplots(1, 2, figsize=(10, 4))
+
+    x = np.arange(img.shape[1])
+    ax[0].plot(x, R_x, 'r', label='R'); ax[0].plot(x, G_x, 'g', label='G'); ax[0].plot(x, B_x, 'b', label='B')
+    ax[0].plot(x, RGB_x, 'k', linewidth=4, label='Mean RGB')
+
+    ax[0].set_xlabel('x-coord'); ax[0].set_ylabel('colour value')
+    ax[0].legend()
+    ax[0].set_title('Colour values as a function of x-coordinates')
+
+    y = np.arange(img.shape[0])
+    ax[1].plot(R_y, y, 'r', label='R'); ax[1].plot(G_y, y, 'g', label='G'); ax[1].plot(B_y, y, 'b', label='B')
+    ax[1].plot(RGB_y, y, 'k', linewidth=4, label='Mean RGB')
+
+    ax[1].set_xlabel('colour value'); ax[1].set_ylabel('y-coord')
+    ax[1].legend()
+    ax[1].set_title('Y-coordinates as a function of Colour Values')
+
+    plt.tight_layout()
+    plt.savefig('../examples/rock_canyon_RGB_summary.png', dpi=300)
+    plt.show()
+    plt.close()
+
 
 if __name__ == '__main__':
     main()
