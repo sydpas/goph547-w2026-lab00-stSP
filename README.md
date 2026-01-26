@@ -14,3 +14,8 @@ Navigate to the directory where the repository files will be stored.
 ## How to make a vitural environment.
 In the project folder, create the virtual environment (venv) by typing [virtualenv .venv] into terminal without the
 brackets. To activate, type [.venv/Scripts/Activate] and to deactivate, simply type [deactivate].
+## To run the code...
+In the *driver.py* file, simply hit [Run] to see the output of the code. There should be 9 numerical questions answered, 
+the sizes of both greyscale and regular images, 3 images total (regular, greyscale, cropped), and a colour value graph.
+In terminal, navigate to the repository folder, activate the venv and enter [python driver.py]. Ensure you are in
+the examples folder!
